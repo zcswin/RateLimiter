@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Define home directory for Logs -->	
+	<property name="LOGS_HOME" value="./logs/" />
+
+	<!-- Show on console -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+				%msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<!--  loggign of messaging services -->
+	<appender name="MESSAGING-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_HOME}opas-messaging.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				<!--  [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{HH:mm:ss}] %class{0}.%method:%L - %m%n  
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas-messaging.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>300MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+	
+	<!--  loggign of core services -->
+	<appender name="CORE-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_HOME}opas-core.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				<!--  [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{0}.%method:%L - %m%n  
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas-core.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>300MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+	
+	<!--  loggign of batch services -->
+	<appender name="BATCH-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_HOME}opas-batch.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				<!--  [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{0}.%method:%L - %m%n  
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas-batch.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>300MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+	
+	<!--  loggign of audit entries -->
+	<appender name="AUDIT-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_HOME}opas-audit.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				<!--  [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{0}.%method:%L - %m%n  
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas-audit.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>300MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+
+	<!-- root logger file, log everythings -->
+	<appender name="ROOT-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_HOME}opas.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5p %class{0}.%method:%L - %m%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas_log.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<!-- warn logger file, log only warn level -->
+	<appender name="WARN-FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<OnMatch>NEUTRAL</OnMatch>
+			<OnMismatch>DENY</OnMismatch>
+		</filter>
+		<file>${LOGS_HOME}opas-warn.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5p %class{0}.%method:%L - %m%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas_warn_log.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<!-- error logger file, log only error or above level -->
+	<appender name="ERROR-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>ERROR</level>
+    	</filter>
+		<filter class = "com.hsbc.gbm.opas.devweb.logback.filter.DbFilter">
+			<OnMatch>DENY</OnMatch>
+			<OnMismatch>NEUTRAL</OnMismatch>
+		</filter>
+		<file>${LOGS_HOME}opas-error.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5p %class{0}.%method:%L - %m%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas_error_log.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<!-- db logger file, logging of db -->
+	<appender name="DB-FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="com.hsbc.gbm.opas.devweb.logback.filter.DbFilter">
+			<OnMatch>NEUTRAL</OnMatch>
+			<OnMismatch>DENY</OnMismatch>
+		</filter>
+		<file>${LOGS_HOME}opas-db.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				<!-- %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5p %class{0}.%method:%L - %m%n  -->
+				[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5p %class{0}.%method:%L - %m%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOGS_HOME}opas_db_log.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<!-- **************************************** -->
+	<!-- Loggers here -->
+	<!-- **************************************** -->
+	<logger name="opas-messaging" level="debug" additivity="false">
+		<appender-ref ref="MESSAGING-FILE" />
+		<appender-ref ref="CORE-FILE" />		
+		<appender-ref ref="ROOT-FILE" />
+		<appender-ref ref="ERROR-FILE" />		
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DB-FILE" />
+		<appender-ref ref="WARN-FILE" />		
+	</logger>
+	
+	<logger name="opas-core" level="debug" additivity="false">
+		<appender-ref ref="CORE-FILE" />
+		<appender-ref ref="ROOT-FILE" />
+		<appender-ref ref="ERROR-FILE" />		
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DB-FILE" />
+		<appender-ref ref="WARN-FILE" />		
+	</logger>
+
+	<logger name="opas-batch" level="debug" additivity="false">
+		<appender-ref ref="BATCH-FILE" />
+		<appender-ref ref="ROOT-FILE" />
+		<appender-ref ref="ERROR-FILE" />		
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DB-FILE" />
+		<appender-ref ref="WARN-FILE" />		
+	</logger>
+	
+	<!-- Root Logger, log every things -->
+	<root level="info">
+		<appender-ref ref="ROOT-FILE" />
+		<appender-ref ref="ERROR-FILE" />		
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DB-FILE" />
+		<appender-ref ref="WARN-FILE" />
+	</root>
+	
+	<logger name="opas-audit" level="debug" additivity="false">
+		<appender-ref ref="AUDIT-FILE" />		
+	</logger>
+
+</configuration>
