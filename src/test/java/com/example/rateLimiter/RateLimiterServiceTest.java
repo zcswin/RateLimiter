@@ -1,11 +1,13 @@
 package com.example.rateLimiter;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,29 +18,38 @@ import java.time.Duration;
 @SpringBootTest
 public class RateLimiterServiceTest {
 
-    @Mock
-    private StringRedisTemplate redisTemplate;
+	@Mock
+	private StringRedisTemplate redisTemplate;
 
-    @InjectMocks
-    private RateLimiterService rateLimiterService;
+	@InjectMocks
+	private RateLimiterService rateLimiterService;
 
-    public RateLimiterServiceTest() {
-        MockitoAnnotations.openMocks(this);
-    }
+	public RateLimiterServiceTest() {
+		MockitoAnnotations.openMocks(this);
+	}
 
-    @Test
-    public void testIsAllowed() {
-        String userId = "user1";
-        String api = "api1";
-        int limit = 10000;
+	@Mock
+	private ValueOperations<String, String> valueOperations;
 
-        when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(1L);
-        when(redisTemplate.expire(anyString(), any(Duration.class))).thenReturn(true);
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.openMocks(this);
+		when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+	}
 
-        assertTrue(rateLimiterService.isAllowed(userId, api, limit));
+	@Test
+	public void testIsAllowed() {
+		String userId = "user1";
+		String api = "api1";
+		int limit = 10000;
 
-        when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(10001L);
+		when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(1L);
+		when(redisTemplate.expire(anyString(), any(Duration.class))).thenReturn(true);
 
-        assertFalse(rateLimiterService.isAllowed(userId, api, limit));
-    }
+		assertTrue(rateLimiterService.isAllowed(userId, api, limit));
+
+		when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(10001L);
+
+		assertFalse(rateLimiterService.isAllowed(userId, api, limit));
+	}
 }
