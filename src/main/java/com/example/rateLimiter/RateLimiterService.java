@@ -31,11 +31,11 @@ public class RateLimiterService {
 
     private int getRequestLimit(String userId) {
         if ("user1".equals(userId)) {
-            return 10000; // 每分钟限制
+            return 1000; // 每分钟限制
         } else if ("user2".equals(userId)) {
-            return 20000; // 每分钟限制
+            return 2000; // 每分钟限制
         } else {
-            return 10000; // 默认每分钟限制
+            return 1000; // 默认每分钟限制
         }
     }
 

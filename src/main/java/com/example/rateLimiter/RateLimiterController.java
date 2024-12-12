@@ -13,7 +13,10 @@ public class RateLimiterController {
 
 	@Autowired
 	private RateLimiterService rateLimiterService;
-
+	
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+    
 	@GetMapping("/api1")
 	public ResponseEntity<String> api1(HttpServletRequest request) {
 		return handleRequest("api1", request);
@@ -31,8 +34,12 @@ public class RateLimiterController {
 
 	private ResponseEntity<String> handleRequest(String apiName, HttpServletRequest request) {
 		String userId = request.getParameter("userId");
-		if (rateLimiterService.isAllowed(userId, apiName)) {
-			return ResponseEntity.ok("Request successful");
+		if (rateLimiterService.isAllowed(userId, apiName)) {        
+			// 处理消息，例如解析用户ID和API名称
+	        // 并调用用kafka发送消息，需要配置队列服务
+			//kafkaProducerService.sendMessage("requests", userId + ":" + apiName);
+	        return ResponseEntity.ok("Request successful");
+			// return ResponseEntity.ok("Request successful");
 		} else {
 			return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Rate limit exceeded");
 		}
