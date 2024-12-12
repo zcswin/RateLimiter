@@ -1,37 +1,40 @@
 package com.example.rateLimiter;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class RateLimiterController {
 
-    @Autowired
-    private RateLimiterService rateLimiterService;
+	@Autowired
+	private RateLimiterService rateLimiterService;
 
-    private static final int LIMIT = 10000;
+	@GetMapping("/api1")
+	public ResponseEntity<String> api1(HttpServletRequest request) {
+		return handleRequest("api1", request);
+	}
 
-    @GetMapping("/api1")
-    public String api1(@RequestParam String userId) {
-        return handleRequest(userId, "api1");
-    }
+	@PostMapping("/api2")
+	public ResponseEntity<String> api2(HttpServletRequest request) {
+		return handleRequest("api2", request);
+	}
 
-    @PostMapping("/api2")
-    public String api2(@RequestParam String userId) {
-        return handleRequest(userId, "api2");
-    }
+	@PutMapping("/api3")
+	public ResponseEntity<String> api3(HttpServletRequest request) {
+		return handleRequest("api3", request);
+	}
 
-    @PutMapping("/api3")
-    public String api3(@RequestParam String userId) {
-        return handleRequest(userId, "api3");
-    }
-
-    private String handleRequest(String userId, String api) {
-        if (rateLimiterService.isAllowed(userId, api, LIMIT)) {
-            return "Request successful";
-        } else {
-            return "Rate limit exceeded";
-        }
-    }
+	private ResponseEntity<String> handleRequest(String apiName, HttpServletRequest request) {
+		String userId = request.getParameter("userId");
+		if (rateLimiterService.isAllowed(userId, apiName)) {
+			return ResponseEntity.ok("Request successful");
+		} else {
+			return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Rate limit exceeded");
+		}
+	}
 }

@@ -41,15 +41,15 @@ public class RateLimiterServiceTest {
 	public void testIsAllowed() {
 		String userId = "user1";
 		String api = "api1";
-		int limit = 10000;
 
 		when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(1L);
 		when(redisTemplate.expire(anyString(), any(Duration.class))).thenReturn(true);
 
-		assertTrue(rateLimiterService.isAllowed(userId, api, limit));
+		assertTrue(rateLimiterService.isAllowed(userId, api));
 
 		when(redisTemplate.opsForValue().increment(anyString(), eq(1L))).thenReturn(10001L);
+		when(redisTemplate.opsForValue().get(anyString())).thenReturn("10001");
 
-		assertFalse(rateLimiterService.isAllowed(userId, api, limit));
+		assertFalse(rateLimiterService.isAllowed(userId, api));
 	}
 }
