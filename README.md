@@ -7,3 +7,5 @@ redis result
 
 RateLimit Test adjust
 ![限流算法补充测试-通过](https://github.com/user-attachments/assets/00df246b-bf48-4ee2-91a6-49ddfa35c5ee)
+
+![rate limittestcase](https://github.com/user-attachments/assets/f4c219de-d5ca-4565-a39e-3aefc2f671da)
