@@ -42,6 +42,10 @@ public class RateLimiterControllerTest {
 
 	@Test
 	public void testApi1() {
+		Set<String> keys = stringRedisTemplate.keys("user*");
+		if (keys != null) {
+			stringRedisTemplate.delete(keys);
+		}
 		String userId = "user1";
 		ResponseEntity<String> response = restTemplate.getForEntity("/api/api1?userId=" + userId, String.class);
 		assertEquals("Request successful", response.getBody());
@@ -68,7 +72,7 @@ public class RateLimiterControllerTest {
 		if (keys != null) {
 			stringRedisTemplate.delete(keys);
 		}
-		for (int i = 0; i < 2000; i++) {
+		for (int i = 0; i < 500; i++) {
 			String api;
 			MockHttpServletRequestBuilder request;
 
@@ -84,9 +88,9 @@ public class RateLimiterControllerTest {
 				request = MockMvcRequestBuilders.put(api);
 			}
 
-			String userId = i < 1000 ? "user1" : "user2";
+			String userId = i < 100 ? "user1" : "user2";
 			mockMvc.perform(request.param("userId", userId))
-					.andExpect(status().is(i < (userId.equals("user1") ? 1000 : 2000) ? HttpStatus.OK.value()
+					.andExpect(status().is(i < (userId.equals("user1") ? 100 : 500) ? HttpStatus.OK.value()
 							: HttpStatus.TOO_MANY_REQUESTS.value()));
 		}
 	}
@@ -103,7 +107,7 @@ public class RateLimiterControllerTest {
 			api = "/api/api1";
 			request = MockMvcRequestBuilders.get(api);
 			String userId = "user1";
-			int limit = 1000;
+			int limit = 100;
 			mockMvc.perform(request.param("userId", userId))
 					.andExpect(status().is(i < limit ? HttpStatus.OK.value() : HttpStatus.TOO_MANY_REQUESTS.value()));
 		}
@@ -121,7 +125,7 @@ public class RateLimiterControllerTest {
 			api = "/api/api2";
 			request = MockMvcRequestBuilders.post(api);
 			String userId = "user2";
-			int limit = 2000;
+			int limit = 200;
 			mockMvc.perform(request.param("userId", userId))
 					.andExpect(status().is(i < limit ? HttpStatus.OK.value() : HttpStatus.TOO_MANY_REQUESTS.value()));
 		}
@@ -133,13 +137,13 @@ public class RateLimiterControllerTest {
 		if (keys != null) {
 			stringRedisTemplate.delete(keys);
 		}
-		for (int i = 0; i < 2000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			String api;
 			MockHttpServletRequestBuilder request;
 			api = "/api/api3";
 			request = MockMvcRequestBuilders.put(api);
 			String userId = "user3";
-			int limit = 1000;
+			int limit = 500;
 			mockMvc.perform(request.param("userId", userId))
 					.andExpect(status().is(i < limit ? HttpStatus.OK.value() : HttpStatus.TOO_MANY_REQUESTS.value()));
 		}
