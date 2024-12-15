@@ -1,0 +1,74 @@
+# STS specific files
+.springBeans
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.sts4-cache/
+
+
+# Maven specific files
+# Ignore target directory 
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+
+# Eclipse specific files
+*.launch
+*.log
+*.metadata
+*.recommenders
+*.swt
+*.tmc
+*.tooling
+*.trace
+*.wsdd
+*.xml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+*.tmp
+*.temp
+*.bak
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Generated files
+gen/
+out/
+bin/
+build/
+dist/
+node_modules/
+npm-debug.log
+yarn-error.log
+coverage/
+lib/
+lib64/
+lib32/
+libx32/
